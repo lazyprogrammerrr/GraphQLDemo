@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using static GraphQLDemo.API.Models.Subject;
 
 namespace GraphQLDemo.API.Schema.Querys
 {
@@ -13,7 +14,7 @@ namespace GraphQLDemo.API.Schema.Querys
 
             _studentFaker = new Faker<StudentType>().RuleFor(c => c.Id, f => Guid.NewGuid()).RuleFor(c => c.FirstName, f => f.Name.FirstName()).RuleFor(c => c.LastName, f => f.Name.LastName()).RuleFor(c => c.GPA, f => f.Random.Int(1,10));
 
-            _courseFaker = new Faker<CourseType>().RuleFor(c => c.Id, f => Guid.NewGuid()).RuleFor(c => c.Name, f => f.Name.JobTitle()).RuleFor(c => c.Subject, f => f.PickRandom<CourseType.SubjectsEnum>()).RuleFor(c => c.Instructor, f => _instructorFaker.Generate()).RuleFor(c=>c.Students,f=>_studentFaker.Generate(3));
+            _courseFaker = new Faker<CourseType>().RuleFor(c => c.Id, f => Guid.NewGuid()).RuleFor(c => c.Name, f => f.Name.JobTitle()).RuleFor(c => c.Subject, f => f.PickRandom<SubjectsEnum>()).RuleFor(c => c.Instructor, f => _instructorFaker.Generate()).RuleFor(c=>c.Students,f=>_studentFaker.Generate(3));
 
         }
 
