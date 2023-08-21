@@ -45,8 +45,8 @@ namespace GraphQLDemo.API.Schema.Mutations
             course.Subject = courseInput.Subject;
             course.InstructorId = courseInput.InstructorId;
 
-            //string topicName = $"{course.Id}_{nameof(Subscriptions.Subscription.CourseUpdated)}";
-            //await topicEvent.SendAsync(topicName, course);
+            string topicName = $"{course.Id}_{nameof(Subscriptions.Subscription.CourseUpdated)}";
+            await topicEvent.SendAsync(topicName, course);
 
             return course;
         }
