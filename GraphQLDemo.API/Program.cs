@@ -12,11 +12,20 @@ builder.Services.AddGraphQLServer()
     .AddSubscriptionType<Subscription>()
     .AddInMemorySubscriptions();
 
+
 string connectionString = builder.Configuration.GetConnectionString("default");
 
 builder.Services.AddPooledDbContextFactory<SchoolDBContext>(o => o.UseSqlite(connectionString));
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    IDbContextFactory<SchoolDBContext> dbContextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<SchoolDBContext>>();
+    using(SchoolDBContext context = dbContextFactory.CreateDbContext()){
+        context.Database.Migrate();
+    }
+}
 
 app.UseWebSockets();
 
