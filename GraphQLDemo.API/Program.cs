@@ -1,6 +1,8 @@
+using GraphQLDemo.API.DataLoader;
 using GraphQLDemo.API.Schema.Subscriptions;
 using GraphQLDemo.API.Services;
 using GraphQLDemo.API.Services.Courses;
+using GraphQLDemo.API.Services.Instructors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -14,6 +16,8 @@ builder.Services.AddGraphQLServer()
     .AddInMemorySubscriptions();
 
 builder.Services.AddScoped<CourseRepository>();
+builder.Services.AddScoped<InstructorRepository>();
+builder.Services.AddScoped<InstructorDataLoader>();
 
 
 string connectionString = builder.Configuration.GetConnectionString("default");
