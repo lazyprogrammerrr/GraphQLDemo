@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using GraphQLDemo.API.DTOs;
+using GraphQLDemo.API.Services;
 using GraphQLDemo.API.Services.Courses;
 using static GraphQLDemo.API.Models.Subject;
 
@@ -26,11 +27,23 @@ namespace GraphQLDemo.API.Schema.Querys
         //    _courseFaker = new Faker<CourseType>().RuleFor(c => c.Id, f => Guid.NewGuid()).RuleFor(c => c.Name, f => f.Name.JobTitle()).RuleFor(c => c.Subject, f => f.PickRandom<SubjectsEnum>()).RuleFor(c => c.Instructor, f => _instructorFaker.Generate()).RuleFor(c=>c.Students,f=>_studentFaker.Generate(3));
 
         //}
-
         public async Task<IEnumerable<CourseType>> GetCourses()
         {
             IEnumerable<CourseDTO> courseDTOs = await _courseRepository.GetAll();
             return courseDTOs.Select(c => new CourseType()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Subject = c.Subject,
+                InstructorId = c.InstructorId,
+            });
+        }
+
+        [UseDbContext(typeof(SchoolDBContext))]
+        [UsePaging(IncludeTotalCount = true, DefaultPageSize = 5)]
+        public IQueryable<CourseType> GetPaginatedCourses([ScopedService] SchoolDBContext schoolDBContext)
+        {
+            return schoolDBContext.Courses.Select(c => new CourseType()
             {
                 Id = c.Id,
                 Name = c.Name,

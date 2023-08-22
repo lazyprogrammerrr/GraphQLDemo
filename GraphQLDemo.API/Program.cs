@@ -22,7 +22,7 @@ builder.Services.AddScoped<InstructorDataLoader>();
 
 string connectionString = builder.Configuration.GetConnectionString("default");
 
-builder.Services.AddPooledDbContextFactory<SchoolDBContext>(o => o.UseSqlite(connectionString));
+builder.Services.AddPooledDbContextFactory<SchoolDBContext>(o => o.UseSqlite(connectionString).LogTo(Console.WriteLine));
 
 var app = builder.Build();
 
