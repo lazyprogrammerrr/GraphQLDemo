@@ -1,8 +1,10 @@
 ﻿using GraphQLDemo.API.DTOs;
 using GraphQLDemo.API.Schema.Querys;
 using GraphQLDemo.API.Services.Courses;
+using HotChocolate.Authorization;
 using HotChocolate.Subscriptions;
 using System.Linq;
+using System.Security.Claims;
 
 namespace GraphQLDemo.API.Schema.Mutations
 {
@@ -15,9 +17,9 @@ namespace GraphQLDemo.API.Schema.Mutations
             _courseRepository = courseRepository;
         }
 
-        public async Task<CourseResult> CreateCourse(CourseInputType courseInput, [Service] ITopicEventSender topicEvent)
+        [Authorize]
+        public async Task<CourseResult> CreateCourse(CourseInputType courseInput, [Service] ITopicEventSender topicEvent, ClaimsPrincipal claimsPrincipal)
         {
-            
             CourseDTO courseDTO = new CourseDTO()
             {
                 Name = courseInput.Name,
@@ -41,6 +43,7 @@ namespace GraphQLDemo.API.Schema.Mutations
             return createCourse;
         }
 
+        [Authorize]
         public async Task<CourseResult> UpdateCourseById(Guid id, CourseInputType courseInput, [Service] ITopicEventSender topicEvent)
         {
             CourseDTO courseDTO = new CourseDTO()
@@ -68,6 +71,7 @@ namespace GraphQLDemo.API.Schema.Mutations
             return course;
         }
 
+        [Authorize]
         public async Task<bool> DeleteCourse(Guid id)
         {
             return await _courseRepository.Delete(id);
