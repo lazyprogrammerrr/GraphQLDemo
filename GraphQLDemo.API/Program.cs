@@ -14,7 +14,8 @@ builder.Services.AddGraphQLServer()
     .AddMutationType<GraphQLDemo.API.Schema.Mutations.Mutation>()
     .AddSubscriptionType<Subscription>()
     .AddInMemorySubscriptions()
-    .AddFiltering();
+    .AddFiltering().
+    AddSorting();
 
 builder.Services.AddScoped<CourseRepository>();
 builder.Services.AddScoped<InstructorRepository>();
@@ -30,7 +31,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     IDbContextFactory<SchoolDBContext> dbContextFactory = scope.ServiceProvider.GetRequiredService<IDbContextFactory<SchoolDBContext>>();
-    using(SchoolDBContext context = dbContextFactory.CreateDbContext()){
+    using (SchoolDBContext context = dbContextFactory.CreateDbContext())
+    {
         context.Database.Migrate();
     }
 }
