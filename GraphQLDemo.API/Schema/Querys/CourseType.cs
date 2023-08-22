@@ -10,6 +10,7 @@ namespace GraphQLDemo.API.Schema.Querys
         public Guid Id { get; set; }
         public string Name { get; set; }
         public SubjectsEnum Subject { get; set; }
+        [IsProjected(true)]
         public Guid InstructorId { get; set; }
         public async Task<InstructorType> Instructor([Service] InstructorDataLoader instructorDataLoader)
         {
