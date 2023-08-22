@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using GraphQLDemo.API.DTOs;
+using GraphQLDemo.API.Schema.Filters;
 using GraphQLDemo.API.Services;
 using GraphQLDemo.API.Services.Courses;
 using static GraphQLDemo.API.Models.Subject;
@@ -41,6 +42,7 @@ namespace GraphQLDemo.API.Schema.Querys
 
         [UseDbContext(typeof(SchoolDBContext))]
         [UsePaging(IncludeTotalCount = true, DefaultPageSize = 5)]
+        [UseFiltering(typeof(CourseFilterType))]
         public IQueryable<CourseType> GetPaginatedCourses([ScopedService] SchoolDBContext schoolDBContext)
         {
             return schoolDBContext.Courses.Select(c => new CourseType()

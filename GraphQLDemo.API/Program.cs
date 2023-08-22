@@ -13,7 +13,8 @@ builder.Services.AddGraphQLServer()
     .AddQueryType<GraphQLDemo.API.Schema.Querys.Query>()
     .AddMutationType<GraphQLDemo.API.Schema.Mutations.Mutation>()
     .AddSubscriptionType<Subscription>()
-    .AddInMemorySubscriptions();
+    .AddInMemorySubscriptions()
+    .AddFiltering();
 
 builder.Services.AddScoped<CourseRepository>();
 builder.Services.AddScoped<InstructorRepository>();
